@@ -1,26 +1,195 @@
+<!-- ============================================
+     tentang.html - Halaman Tentang Saya
+     Berisi deskripsi diri, data akademik,
+     skill list, dan sidebar blog layout
+     ============================================ -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Tentang</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tentang Bilal - Cybersecurity Specialist">
+    <title>CyberSecurity Antusias | Tentang</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="logo"> MyBrand </div>
-    <ul class="nav-links">
-        <li><a href="beranda.html">Beranda</a></li>
-        <li><a href="tentang.html">Tentang</a></li>
-        <li><a href="layanan.html">Layanan</a></li>
-        <li><a href="kontak.html">Kontak</a></li>
-    </ul>
-</nav>
+    <!-- ==================== NAVBAR ==================== -->
+    <header class="navbar">
+        <div class="navbar__container">
+            <a href="index.html" class="navbar__logo">
+                <span class="navbar__logo-icon">&#x1f6e1;</span>
+                <span>CyberSecurity<span class="navbar__logo-highlight">Antusias</span></span>
+            </a>
 
-<section>
-    <h1>Tentang Kami</h1>
-    <p>Kami adalah perusahaan yang bergerak di bidang web development.</p>
-</section>
+            <input type="checkbox" id="nav-toggle" class="navbar__toggle-input">
+            <label for="nav-toggle" class="navbar__toggle-label">
+                <span class="navbar__toggle-bar"></span>
+                <span class="navbar__toggle-bar"></span>
+                <span class="navbar__toggle-bar"></span>
+            </label>
+
+            <nav class="navbar__nav">
+                <ul class="navbar__links">
+                    <li><a href="index.html" class="navbar__link">Beranda</a></li>
+                    <li><a href="tentang.html" class="navbar__link navbar__link--active">Tentang</a></li>
+                    <li><a href="layanan.html" class="navbar__link">Layanan</a></li>
+                    <li><a href="kontak.html" class="navbar__link">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+
+        <!-- ===== PAGE HEADER ===== -->
+        <section class="page-header">
+            <div class="section__container">
+                <h1 class="page-header__title">Tentang <span class="text--primary">Saya</span></h1>
+                <p class="page-header__subtitle">Mengenal lebih dekat siapa saya dan apa yang saya lakukan</p>
+            </div>
+        </section>
+
+        <!-- ===== ABOUT + SIDEBAR LAYOUT ===== -->
+        <section class="section">
+            <div class="section__container">
+                <div class="blog-layout">
+                    <!-- Konten Utama (Artikel) -->
+                    <div class="blog-layout__main">
+                        <article class="about-article">
+                            <h2>Deskripsi Diri</h2>
+                            <p>
+                                Sekarang gua lagi banyak eksplorasi di dunia teknologi, fokus belajar pengembangan web dan keamanan siber. Gua tertarik memahami cara kerja sistem melalui HTML, struktur web, dan tools. Gua juga selalu berusaha berpikir realistis dan mempertimbangkan masa depan gua sebagai jalur yang terbaik.
+                            </p>
+                            <p>
+                                Buat gua, belajar bukan sekedar soal teori, tapi soal membangun fondasi yang kuat untuk jangka panjang. Gua suka hal-hal yang punya kedalaman makna. Entah itu soal filosofi, hubungan manusia, atau karya yang emosional tapi tidak terlalu eksplisit.
+                            </p>
+                            <p>
+                                Gua percaya manusia bisa berubah dan mendesain ulang dirinya sendiri. Identitas bukan sesuatu yang kaku. Gua juga percaya ada bentuk koneksi yang lebih dari sekadar ngobrol, semacam rasa tenang yang muncul tanpa banyak kata. Meskipun gua belum sepenuhnya mengerti itu, gua tahu itu ada.
+                            </p>
+
+                            <h2>Data Akademik</h2>
+                            <table class="about-table">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Nama Lengkap</strong></td>
+                                        <td>Bilal</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nama Panggilan</strong></td>
+                                        <td>Zerocool</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Jurusan</strong></td>
+                                        <td>Teknik Informatika</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Semester</strong></td>
+                                        <td>IV (Empat)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Kampus</strong></td>
+                                        <td>Universitas Tazkia</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Role</strong></td>
+                                        <td>Cybersecurity</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Skill Utama</strong></td>
+                                        <td>Cybersecurity & Pentest</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h2>Skill List</h2>
+                            <ul class="about-skills">
+                                <li>Python Programming (80%)</li>
+                                <li>Computer Networking (75%)</li>
+                                <li>Cybersecurity Fundamentals (85%)</li>
+                                <li>Penetration Testing / Pentest (70%)</li>
+                                <li>Web Development (HTML, CSS, JavaScript)</li>
+                                <li>Linux System Administration</li>
+                                <li>Encryption & Cryptography Basics</li>
+                            </ul>
+                        </article>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <aside class="blog-layout__sidebar">
+                        <div class="widget">
+                            <h4 class="widget__title">Info Cepat</h4>
+                            <ul class="widget__list">
+                                <li><strong>Nama:</strong> Bilal</li>
+                                <li><strong>Handle:</strong> @Zerocool</li>
+                                <li><strong>Role:</strong> Cybersecurity</li>
+                                <li><strong>Kampus:</strong> Univ. Tazkia</li>
+                            </ul>
+                        </div>
+
+                        <div class="widget">
+                            <h4 class="widget__title">Project Terbaru</h4>
+                            <ul class="widget__list">
+                                <li><a href="https://github.com/zerocool979/olion" target="_blank" rel="noopener">OLION - Forum Web App</a></li>
+                                <li><a href="https://github.com/zerocool979/Rnsm-Fernet" target="_blank" rel="noopener">Ransomware Simulation</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="widget">
+                            <h4 class="widget__title">Keahlian Utama</h4>
+                            <div class="widget__tags">
+                                <span class="tag">Cybersecurity</span>
+                                <span class="tag">Pentest</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Networking</span>
+                                <span class="tag">Linux</span>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <span class="footer__logo">CyberSecurity<span class="text--primary">Antusias</span></span>
+                <p class="footer__tagline">Future Cybersecurity Specialist</p>
+            </div>
+
+            <div class="footer__social">
+                <a href="https://github.com/zerocool979" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/>
+                    </svg>
+                </a>
+                <a href="mailto:bilalfarhani635@gmail.com" class="social-icon" aria-label="Email">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="4" width="20" height="16" rx="2"/>
+                        <path d="M22 4L12 13 2 4"/>
+                    </svg>
+                </a>
+                <a href="https://wa.me/6289531885806" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <p class="footer__copy">&copy; 2026 Bilal (Zerocool). All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>

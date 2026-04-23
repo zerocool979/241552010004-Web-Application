@@ -1,98 +1,253 @@
+<!-- ============================================
+     index.html - Halaman Beranda
+     Portfolio CyberSecurity oleh Bilal (Zerocool)
+     Tema: Cyber Dark Theme
+     ============================================ -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Company</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio Cybersecurity Bilal - Future Cybersecurity Specialist">
+    <title>CyberSecurity Antusias | Beranda</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo"> MyBrand </div>
-        <ul class="nav-links">
-            <li><a href="beranda.html">Beranda</a></li>
-            <li><a href="tentang.html">Tentang</a></li>
-            <li><a href="layanan.html">Layanan</a></li>
-            <li><a href="kontak.html">Kontak</a></li>
-        </ul>
-        <button class="cta"> Mulai Gratis </button>
-    </nav>
-    
-    <marquee direction="right">
-    Selamat datang di MyBrand
-    </marquee>
+    <!-- ==================== NAVBAR ==================== -->
+    <header class="navbar">
+        <div class="navbar__container">
+            <a href="index.html" class="navbar__logo">
+                <span class="navbar__logo-icon">&#x1f6e1;</span>
+                <span>CyberSecurity<span class="navbar__logo-highlight">Antusias</span></span>
+            </a>
 
-    <section class="hero">
-        <div class="hero-content">
-            <span class="badge">
-                Web Development</span>
-            <h1>Buat Website Impianmu Hari Ini</h1>
-            <p>Pelajari HTML, CSS & JavaScript</p>
-            dari dasar hingga mahir — gratis.
-            <div class="btn-group">
-                <a class="btn-primary" href="#">
-                    Mulai Belajar →</a>
-                <a class="btn-ghost" href="#">
-                    Lihat Kurikulum</a>
-            </div>
-        </div>
-    </section>
+            <!-- Hamburger toggle (CSS-only mobile menu) -->
+            <input type="checkbox" id="nav-toggle" class="navbar__toggle-input">
+            <label for="nav-toggle" class="navbar__toggle-label">
+                <span class="navbar__toggle-bar"></span>
+                <span class="navbar__toggle-bar"></span>
+                <span class="navbar__toggle-bar"></span>
+            </label>
 
-    <div class="pricing">
-        <div class="plan">
-            <h3>Gratis</h3>
-            <div class="price">
-                <span class="amount"> Rp 0 </span> /bulan
-            </div>
-            <ul>
-                <li>✓ 5 Proyek</li>
-                <li>✓ 1 GB Storage</li>
-                <li>✗ Dukungan Prioritas</li>
-            </ul>
-            <button>Mulai Gratis</button>
-        </div>
-    </div>
-
-    <div class="layout">
-        <article class="content">
-            <h1>Panduan Flexbox untuk Pemula</h1>
-            <p class="meta">
-                16 April 2026 · 8 menit baca</p>
-            <p>Flexbox adalah sistem layout CSS...</p>
-            <h2>Mengapa Flexbox?</h2>
-            <p>Sebelum Flexbox, developer...   </p>
-        </article>
-        <aside class="sidebar">
-            <div class="widget">
-                <h4>Artikel Terkait</h4>
-                <ul>
-                    <li>CSS Grid</li>
-                    <li>Media Queries</li>
+            <nav class="navbar__nav">
+                <ul class="navbar__links">
+                    <li><a href="index.html" class="navbar__link navbar__link--active">Beranda</a></li>
+                    <li><a href="tentang.html" class="navbar__link">Tentang</a></li>
+                    <li><a href="layanan.html" class="navbar__link">Layanan</a></li>
+                    <li><a href="kontak.html" class="navbar__link">Kontak</a></li>
                 </ul>
-            </div>
-        </aside>
-    </div>
-
-    <div class="card">
-        <div class="avatar"> AS </div>
-        <h2>A.Sulaiman</h2>
-        <p class="role">Web Developer</p>
-        <div class="stats">
-            <div>
-                <strong>48</strong>
-                <span>Posts</span>
-            </div>
-            <div>
-                <strong>1.2k</strong>
-                <span>Followers</span>
-            </div>
-            <div>
-                <strong>312</strong>
-                <span>Following</span>
-            </div>
+            </nav>
         </div>
-        <button class="btn">Follow</button>
-    </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+
+        <!-- ===== HERO SECTION ===== -->
+        <section class="hero" id="beranda">
+            <div class="hero__container">
+                <!-- Avatar dengan inisial -->
+                <div class="hero__avatar">
+                    <img src="assets/profile.jpg"
+                    alt="Foto Bilal"
+                    class="hero__avatar-img">
+                    <div class="hero__avatar-ring"></div>
+                </div>
+
+                <h1 class="hero__name">Bilal</h1>
+                <p class="hero__handle">@Zerocool</p>
+                <p class="hero__tagline">Future Cybersecurity Specialist: <em>i guess it means i'm the boss of myself ;)</em></p>
+
+                <div class="hero__cta">
+                    <a href="tentang.html" class="btn btn--primary">Tentang Saya</a>
+                    <a href="kontak.html" class="btn btn--outline">Hubungi Saya</a>
+                </div>
+
+                <!-- Scroll indicator -->
+                <div class="hero__scroll">
+                    <span>Scroll</span>
+                    <div class="hero__scroll-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROFILE CARD SECTION ===== -->
+        <section class="section" id="profile">
+            <div class="section__container">
+                <h2 class="section__title">Profil <span class="text--primary">Singkat</span></h2>
+
+                <div class="profile-card">
+                    <div class="profile-card__avatar">
+                        <img src="assets/profile.jpg"
+                        alt="Foto Bilal"
+                        class="profile-card__img">
+                    </div>
+                    <h3 class="profile-card__name">Bilal</h3>
+                    <p class="profile-card__role">Cybersecurity & Pentest</p>
+                    <p class="profile-card__campus">Universitas Tazkia · Teknik Informatika · Semester IV</p>
+
+                    <div class="profile-card__stats">
+                        <div class="profile-card__stat">
+                            <strong>29</strong>
+                            <span>Posts</span>
+                        </div>
+                        <div class="profile-card__stat">
+                            <strong>2M</strong>
+                            <span>Followers</span>
+                        </div>
+                        <div class="profile-card__stat">
+                            <strong>1</strong>
+                            <span>Following</span>
+                        </div>
+                    </div>
+
+                    <a href="kontak.html" class="btn btn--primary profile-card__btn">Follow</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SKILLS SECTION ===== -->
+        <section class="section section--alt" id="skills">
+            <div class="section__container">
+                <h2 class="section__title">Skill <span class="text--primary">Level</span></h2>
+                <p class="section__subtitle">Keahlian teknis yang terus diasah setiap hari</p>
+
+                <div class="skills">
+                    <!-- Skill: Python -->
+                    <div class="skill">
+                        <div class="skill__header">
+                            <span class="skill__name">Python</span>
+                            <span class="skill__percent">80%</span>
+                        </div>
+                        <div class="skill__bar">
+                            <div class="skill__fill skill__fill--python" style="--skill-width: 80%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill: Networking -->
+                    <div class="skill">
+                        <div class="skill__header">
+                            <span class="skill__name">Networking</span>
+                            <span class="skill__percent">75%</span>
+                        </div>
+                        <div class="skill__bar">
+                            <div class="skill__fill skill__fill--networking" style="--skill-width: 75%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill: Cybersecurity -->
+                    <div class="skill">
+                        <div class="skill__header">
+                            <span class="skill__name">Cybersecurity</span>
+                            <span class="skill__percent">85%</span>
+                        </div>
+                        <div class="skill__bar">
+                            <div class="skill__fill skill__fill--cyber" style="--skill-width: 85%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill: Pentest -->
+                    <div class="skill">
+                        <div class="skill__header">
+                            <span class="skill__name">Pentest</span>
+                            <span class="skill__percent">70%</span>
+                        </div>
+                        <div class="skill__bar">
+                            <div class="skill__fill skill__fill--pentest" style="--skill-width: 70%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROJECTS SECTION ===== -->
+        <section class="section" id="projects">
+            <div class="section__container">
+                <h2 class="section__title">Project <span class="text--primary">Portfolio</span></h2>
+                <p class="section__subtitle">Proyek yang telah dikerjakan dan tersedia di GitHub</p>
+
+                <div class="projects">
+                    <!-- Project 1: OLION -->
+                    <article class="project-card">
+                        <div class="project-card__icon">&#x1f310;</div>
+                        <h3 class="project-card__title">OLION</h3>
+                        <p class="project-card__desc">
+                            Aplikasi web forum diskusi/tanya jawab yang dirancang untuk membantu pengguna berbagi informasi secara aman melalui mekanisme <strong>pseudonym</strong>, serta menjaga kualitas komunitas melalui fitur moderasi, pelaporan, reputasi, dan verifikasi pakar.
+                        </p>
+                        <div class="project-card__tags">
+                            <span class="tag">Web App</span>
+                            <span class="tag">Security</span>
+                            <span class="tag">Forum</span>
+                        </div>
+                        <a href="https://github.com/zerocool979/olion" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--outline project-card__link">
+                            Lihat di GitHub &#x2197;
+                        </a>
+                    </article>
+
+                    <!-- Project 2: Ransomware Simulation -->
+                    <article class="project-card">
+                        <div class="project-card__icon">&#x1f512;</div>
+                        <h3 class="project-card__title">Ransomware Simulation</h3>
+                        <p class="project-card__desc">
+                            Script Python sederhana untuk memahami cara kerja <strong>ransomware</strong> menggunakan enkripsi. Proyek edukatif untuk mempelajari mekanisme keamanan dan enkripsi data.
+                        </p>
+                        <div class="project-card__tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Encryption</span>
+                            <span class="tag">Security</span>
+                        </div>
+                        <a href="https://github.com/zerocool979/Rnsm-Fernet" target="_blank" rel="noopener noreferrer" class="btn btn--sm btn--outline project-card__link">
+                            Lihat di GitHub &#x2197;
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <span class="footer__logo">CyberSecurity<span class="text--primary">Antusias</span></span>
+                <p class="footer__tagline">Future Cybersecurity Specialist</p>
+            </div>
+
+            <!-- Social media icons -->
+            <div class="footer__social">
+                <a href="https://github.com/zerocool979" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                    <!-- GitHub SVG -->
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/>
+                    </svg>
+                </a>
+                <a href="mailto:bilalfarhani635@gmail.com" class="social-icon" aria-label="Email">
+                    <!-- Email SVG -->
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="4" width="20" height="16" rx="2"/>
+                        <path d="M22 4L12 13 2 4"/>
+                    </svg>
+                </a>
+                <a href="https://wa.me/6289531885806" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+                    <!-- WhatsApp SVG -->
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <p class="footer__copy">&copy; 2026 Bilal (Zerocool). All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
