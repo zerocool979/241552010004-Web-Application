@@ -1,0 +1,736 @@
+<!-- ============================================
+     index.html — Dashboard Portfolio
+     Repository: 241552010004-Web-Application
+     NIM: 241552010004
+     Dibuat untuk GitHub Pages
+     ============================================ -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web Application Portfolio - Student Project Dashboard">
+    <meta name="author" content="241552010004">
+    <title>Web Application Portfolio | 241552010004</title>
+
+    <!-- Google Fonts: Inter + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           CSS RESET & CSS VARIABLES
+           ============================================ */
+        :root {
+            /* Warna Utama — Cyber Dark Blue Theme */
+            --color-bg: #030b1a;
+            --color-bg-alt: #061028;
+            --color-surface: #0b1833;
+            --color-surface-hover: #101f40;
+            --color-border: #1a2d50;
+            --color-primary: #0ea5e9;
+            --color-primary-hover: #38bdf8;
+            --color-primary-glow: rgba(14, 165, 233, 0.25);
+            --color-accent: #22c55e;
+            --color-accent-glow: rgba(34, 197, 94, 0.2);
+            --color-text: #e2e8f0;
+            --color-text-muted: #94a3b8;
+            --color-text-dim: #64748b;
+            --color-white: #ffffff;
+
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            /* Radius */
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 24px;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-glow-primary: 0 0 40px var(--color-primary-glow);
+            --shadow-glow-accent: 0 0 30px var(--color-accent-glow);
+
+            /* Transitions */
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* === Background Decorative Elements === */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(14, 165, 233, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(34, 197, 94, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(14, 165, 233, 0.02) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Grid pattern overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* === MAIN CONTAINER === */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            text-align: center;
+            padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
+            position: relative;
+        }
+
+        .header__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            color: var(--color-primary);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 6px 16px;
+            border-radius: 50px;
+            letter-spacing: 1px;
+            margin-bottom: var(--space-lg);
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .header__badge-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header__title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--color-white);
+            line-height: 1.1;
+            margin-bottom: var(--space-sm);
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .header__title-highlight {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header__subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+            margin-bottom: var(--space-md);
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .header__nim {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-text-dim);
+            background: var(--color-surface);
+            padding: 8px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            letter-spacing: 0.5px;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .header__nim-icon {
+            font-size: 1rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           DASHBOARD SECTION
+           ============================================ */
+        .dashboard {
+            flex: 1;
+            padding: var(--space-md) var(--space-xl) var(--space-3xl);
+        }
+
+        .dashboard__container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard__label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
+            padding-left: var(--space-xs);
+        }
+
+        .dashboard__label-line {
+            width: 32px;
+            height: 2px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .dashboard__label-text {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-text-dim);
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        /* Individual Card */
+        .card {
+            position: relative;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            transition: all var(--transition-base);
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        /* Top glow line on hover */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        /* Subtle background glow */
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, var(--color-primary-glow), transparent 70%);
+            opacity: 0;
+            transition: opacity var(--transition-slow);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow-primary);
+            background: var(--color-surface-hover);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        /* Special styling for Week 5 (Main Project) */
+        .card--featured {
+            border-color: rgba(34, 197, 94, 0.3);
+            background: linear-gradient(135deg, var(--color-surface), rgba(34, 197, 94, 0.03));
+        }
+
+        .card--featured::before {
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+        }
+
+        .card--featured:hover {
+            border-color: var(--color-accent);
+            box-shadow: var(--shadow-lg), var(--shadow-glow-accent);
+        }
+
+        .card--featured .card__icon-wrapper {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .card--featured .card__badge {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--color-accent);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        /* Card icon */
+        .card__icon-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            transition: all var(--transition-base);
+            flex-shrink: 0;
+        }
+
+        .card:hover .card__icon-wrapper {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: rgba(14, 165, 233, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Card content */
+        .card__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-sm);
+        }
+
+        .card__title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-white);
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .card__badge {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--color-primary);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            transition: all var(--transition-base);
+        }
+
+        .card:hover .card__badge {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: rgba(14, 165, 233, 0.35);
+        }
+
+        .card__desc {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        /* Card button */
+        .card__btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--color-border);
+            background: transparent;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-decoration: none;
+            align-self: flex-start;
+            letter-spacing: 0.01em;
+        }
+
+        .card__btn-arrow {
+            transition: transform var(--transition-base);
+            font-size: 0.85rem;
+        }
+
+        .card:hover .card__btn {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .card:hover .card__btn-arrow {
+            transform: translateX(4px);
+        }
+
+        .card--featured:hover .card__btn {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            text-align: center;
+            padding: var(--space-xl) var(--space-xl);
+            border-top: 1px solid var(--color-border);
+            background: var(--color-bg-alt);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer__content {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .footer__copy {
+            font-size: 0.85rem;
+            color: var(--color-text-dim);
+        }
+
+        .footer__copy strong {
+            color: var(--color-text-muted);
+            font-weight: 600;
+        }
+
+        .footer__nim {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-text-dim);
+            background: var(--color-surface);
+            padding: 4px 14px;
+            border-radius: 50px;
+            border: 1px solid var(--color-border);
+            letter-spacing: 0.5px;
+        }
+
+        .footer__divider {
+            width: 40px;
+            height: 2px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin: var(--space-xs) 0;
+        }
+
+        /* ============================================
+           RESPONSIVE — Tablet
+           ============================================ */
+        @media (max-width: 768px) {
+            .header {
+                padding: var(--space-2xl) var(--space-lg) var(--space-xl);
+            }
+
+            .header__title {
+                font-size: 1.8rem;
+            }
+
+            .header__subtitle {
+                font-size: 1rem;
+            }
+
+            .dashboard {
+                padding: var(--space-sm) var(--space-lg) var(--space-2xl);
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+
+            .card {
+                padding: var(--space-lg);
+            }
+
+            .card__icon-wrapper {
+                width: 48px;
+                height: 48px;
+                font-size: 1.4rem;
+            }
+
+            .card__title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE — Mobile Small
+           ============================================ */
+        @media (max-width: 480px) {
+            html {
+                font-size: 15px;
+            }
+
+            .header {
+                padding: var(--space-xl) var(--space-md) var(--space-lg);
+            }
+
+            .header__title {
+                font-size: 1.5rem;
+            }
+
+            .header__nim {
+                font-size: 0.8rem;
+                padding: 6px 14px;
+            }
+
+            .dashboard {
+                padding: var(--space-xs) var(--space-md) var(--space-xl);
+            }
+
+            .card-grid {
+                gap: var(--space-md);
+            }
+
+            .card {
+                padding: var(--space-md);
+            }
+
+            .card__btn {
+                font-size: 0.85rem;
+                padding: 8px 18px;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY — Reduced Motion
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <!-- ==================== HEADER ==================== -->
+        <header class="header">
+            <div class="header__badge">
+                <span class="header__badge-dot" aria-hidden="true"></span>
+                GitHub Pages
+            </div>
+            <h1 class="header__title">
+                Web Application<br><span class="header__title-highlight">Portfolio</span>
+            </h1>
+            <p class="header__subtitle">Student Project Dashboard</p>
+            <div class="header__nim">
+                <span class="header__nim-icon" aria-hidden="true">🎓</span>
+                NIM: 241552010004
+            </div>
+        </header>
+
+        <!-- ==================== DASHBOARD ==================== -->
+        <main class="dashboard">
+            <div class="dashboard__container">
+                <div class="dashboard__label">
+                    <span class="dashboard__label-line" aria-hidden="true"></span>
+                    <span class="dashboard__label-text">Project Weeks</span>
+                </div>
+
+                <div class="card-grid">
+
+                    <!-- Week 1 -->
+                    <a href="W1/" class="card">
+                        <div class="card__icon-wrapper" aria-hidden="true">📄</div>
+                        <div class="card__header">
+                            <h2 class="card__title">Week 1</h2>
+                            <span class="card__badge">HTML</span>
+                        </div>
+                        <p class="card__desc">
+                            Basic HTML Introduction — Fondasi pengembangan web dimulai dari sini. Memahami struktur dokumen, elemen dasar, dan semantik HTML5.
+                        </p>
+                        <span class="card__btn">
+                            Open Project
+                            <span class="card__btn-arrow" aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                    <!-- Week 2 -->
+                    <a href="W2/" class="card">
+                        <div class="card__icon-wrapper" aria-hidden="true">🎨</div>
+                        <div class="card__header">
+                            <h2 class="card__title">Week 2</h2>
+                            <span class="card__badge">CSS</span>
+                        </div>
+                        <p class="card__desc">
+                            CSS Styling Practice — Mempercantik halaman web dengan warna, tipografi, box model, dan properti styling lanjutan.
+                        </p>
+                        <span class="card__btn">
+                            Open Project
+                            <span class="card__btn-arrow" aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                    <!-- Week 3 -->
+                    <a href="W3/" class="card">
+                        <div class="card__icon-wrapper" aria-hidden="true">📐</div>
+                        <div class="card__header">
+                            <h2 class="card__title">Week 3</h2>
+                            <span class="card__badge">Layout</span>
+                        </div>
+                        <p class="card__desc">
+                            Layout &amp; Responsive Design — Menguasai Flexbox untuk tata letak modern dan desain responsif di berbagai ukuran layar.
+                        </p>
+                        <span class="card__btn">
+                            Open Project
+                            <span class="card__btn-arrow" aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                    <!-- Week 4 -->
+                    <a href="W4/" class="card">
+                        <div class="card__icon-wrapper" aria-hidden="true">🧭</div>
+                        <div class="card__header">
+                            <h2 class="card__title">Week 4</h2>
+                            <span class="card__badge">Multi-page</span>
+                        </div>
+                        <p class="card__desc">
+                            Navigation &amp; Multi-page Website — Membangun website dengan beberapa halaman dan sistem navigasi yang intuitif.
+                        </p>
+                        <span class="card__btn">
+                            Open Project
+                            <span class="card__btn-arrow" aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                    <!-- Week 5 (Main Project — Featured) -->
+                    <a href="W5/task/" class="card card--featured">
+                        <div class="card__icon-wrapper" aria-hidden="true">🛡️</div>
+                        <div class="card__header">
+                            <h2 class="card__title">Week 5</h2>
+                            <span class="card__badge">⭐ Main Project</span>
+                        </div>
+                        <p class="card__desc">
+                            Cybersecurity Service Website Project — Proyek utama: website portfolio profesional dengan tema Cyber Dark, layanan keamanan siber, dan layout modern.
+                        </p>
+                        <span class="card__btn">
+                            Open Project
+                            <span class="card__btn-arrow" aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer class="footer">
+            <div class="footer__content">
+                <p class="footer__copy">
+                    &copy; 2026 <strong>Web Application Portfolio</strong>
+                </p>
+                <div class="footer__divider" aria-hidden="true"></div>
+                <p class="footer__copy">
+                    Created by Student <strong>241552010004</strong>
+                </p>
+                <span class="footer__nim">📘 241552010004</span>
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>
