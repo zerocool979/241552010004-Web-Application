@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TazkiaTech - Membangun Masa Depan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f9fafb;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    /* Hero / Kisah Kami */
+    .hero {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: #cbd5e1;
+    }
+
+    .pillars {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin: 30px 0 20px;
+    }
+
+    .pillar {
+      background: rgba(255,255,255,0.08);
+      padding: 15px 25px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .milestones {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .milestones li {
+      font-size: 1rem;
+      background: rgba(255,255,255,0.1);
+      padding: 8px 20px;
+      border-radius: 20px;
+    }
+
+    /* Section Titles */
+    section {
+      padding: 70px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 50px;
+      color: #0f172a;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: #3b82f6;
+      display: block;
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .service-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #0f172a;
+    }
+
+    .service-card p {
+      color: #475569;
+      margin-bottom: 20px;
+    }
+
+    .service-card a {
+      color: #3b82f6;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .service-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Stats */
+    .stats {
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 50px;
+      padding: 50px 20px;
+      border-radius: 20px;
+      margin-top: -30px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: #94a3b8;
+    }
+
+    /* Team */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+    }
+
+    .team-card {
+      background: white;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border: 1px solid #e2e8f0;
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      background: #dbeafe;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #1e3a8a;
+    }
+
+    .team-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 5px;
+    }
+
+    .team-card .role {
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .team-card p {
+      color: #475569;
+      font-size: 0.9rem;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: #f1f5f9;
+      border-radius: 20px;
+      padding: 50px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .newsletter h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 400px;
+      margin: 20px auto 0;
+      gap: 10px;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .newsletter-form button {
+      background: #0f172a;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .newsletter-form button:hover {
+      background: #1e293b;
+    }
+
+    /* Footer */
+    footer {
+      background: #0f172a;
+      color: #cbd5e1;
+      padding: 50px 0 30px;
+      margin-top: 70px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-col h5 {
+      color: white;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-col ul li a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-col ul li a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid #334155;
+      padding-top: 25px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .header-content {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .milestones {
+        flex-direction: column;
+        align-items: center;
+      }
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div class="logo">TazkiaTech</div>
+      <nav>
+        <a href="#">Beranda</a>
+        <a href="#layanan">Layanan</a>
+        <a href="#tim">Tim</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / Kisah Kami -->
+  <section class="hero">
+    <div class="container">
+      <h2>Dari Ide Kecil Menuju Panggung Global</h2>
+      <p>Didirikan pada tahun 2018, TazkiaTech kini melayani klien di 12 negara dengan 40+ insinyur, desainer, dan pemikir produk.</p>
+      <div class="pillars">
+        <span class="pillar">🧠 Komunikasi jelas</span>
+        <span class="pillar">🔄 Proses transparan</span>
+        <span class="pillar">📈 Pembelajaran berkelanjutan</span>
+      </div>
+      <ul class="milestones">
+        <li>2018 — Didirikan</li>
+        <li>2019 — Klien enterprise pertama</li>
+        <li>2021 — Ekspansi 3 negara</li>
+        <li>2024 — 100+ proyek</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Layanan -->
+  <section id="layanan" class="container">
+    <h2 class="section-title">Apa yang Kami Lakukan</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>🌐 Pengembangan Web</h3>
+        <p>Website dan aplikasi web responsif dengan framework modern — cepat, aksesibel, dan skalabel.</p>
+        <a href="#">Pelajari lebih lanjut →</a>
+      </div>
+      <div class="service-card">
+        <h3>📱 Aplikasi Mobile</h3>
+        <p>Aplikasi iOS & Android lintas platform yang terasa native dan menyenangkan pengguna.</p>
+        <a href="#">Pelajari lebih lanjut →</a>
+      </div>
+      <div class="service-card">
+        <h3>☁️ Cloud & DevOps</h3>
+        <p>Otomasi infrastruktur, CI/CD, dan migrasi cloud di AWS, GCP, dan Azure.</p>
+        <a href="#">Pelajari lebih lanjut →</a>
+      </div>
+      <div class="service-card">
+        <h3>🎨 Desain UI/UX</h3>
+        <p>Riset pengguna, wireframe, dan desain yang mengubah pengunjung menjadi pelanggan.</p>
+        <a href="#">Pelajari lebih lanjut →</a>
+      </div>
+      <div class="service-card">
+        <h3>🔒 Keamanan Siber</h3>
+        <p>Pengujian penetrasi, audit kode, dan penguatan keamanan untuk melindungi data Anda.</p>
+        <a href="#">Pelajari lebih lanjut →</a>
+      </div>
+      <div class="service-card">
+        <h3>📊 Data & Analitik</h3>
+        <p>Dasbor, pipeline data, dan model ML untuk wawasan bisnis yang dapat ditindaklanjuti.</p>
+        <a href="#">Pelajari lebih lanjut →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistik -->
+  <div class="container" style="position: relative;">
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-number">100+</span>
+        <span class="stat-label">Proyek Selesai</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">40+</span>
+        <span class="stat-label">Anggota Tim</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">12</span>
+        <span class="stat-label">Negara Terlayani</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">98%</span>
+        <span class="stat-label">Kepuasan Klien</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tim -->
+  <section id="tim" class="container">
+    <h2 class="section-title">Kenali Tim Kami</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">👩‍💼</div>
+        <h4>Sari Kusuma</h4>
+        <div class="role">CEO & CO-FOUNDER</div>
+        <p>10 tahun di perangkat lunak enterprise, ahli strategi produk.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👨‍💻</div>
+        <h4>Markus Santoso</h4>
+        <div class="role">CTO & CO-FOUNDER</div>
+        <p>Arsitek cloud, kontributor open-source, penggemar Kubernetes.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍🎨</div>
+        <h4>Aisha Rahmawati</h4>
+        <div class="role">KEPALA DESAIN</div>
+        <p>Mengubah masalah kompleks menjadi antarmuka elegan & ramah pengguna.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🧑‍💻</div>
+        <h4>Reza Firmanayah</h4>
+        <div class="role">LEAD ENGINEER</div>
+        <p>Full-stack developer, penggemar Go, TypeScript, dan React.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="container">
+    <div class="newsletter">
+      <h3>Berlangganan newsletter kami</h3>
+      <p>Dapatkan informasi terbaru seputar teknologi dan insight dari TazkiaTech.</p>
+      <form class="newsletter-form" onsubmit="alert('Terima kasih telah berlangganan!'); return false;">
+        <input type="email" placeholder="Alamat email Anda" required>
+        <button type="submit">Kirim</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h5>TazkiaTech</h5>
+          <p style="color:#94a3b8;">Membangun masa depan, satu baris kode pada satu waktu.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Perusahaan</h5>
+          <ul>
+            <li><a href="#">Tentang</a></li>
+            <li><a href="#">Karir</a></li>
+            <li><a href="#">Kontak</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Ikuti Kami</h5>
+          <ul>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Twitter / X</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2025 TazkiaTech. Hak cipta dilindungi.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

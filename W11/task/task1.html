@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tugas W11</title>
+  <!-- p5.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <style>
+    /* Variabel tema global */
+    :root {
+      --bg: #f5f5f5;
+      --kartu: rgba(255, 255, 255, 0.25);
+      --teks: #111;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .gelap {
+      --bg: #1e1e2e;
+      --kartu: rgba(40, 40, 60, 0.4);
+      --teks: #fff;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--teks);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Canvas p5.js sebagai latar penuh */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      /* pointer-events: none; tidak digunakan agar klik tetap memicu interaksi p5 */
+    }
+
+    /* Tombol tema di atas canvas */
+    #theme-btn {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      z-index: 10;
+      background: var(--kartu);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: var(--border);
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--teks);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #theme-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.25);
+    }
+    #theme-btn .icon {
+      font-size: 1.3rem;
+      transition: transform 0.3s ease;
+    }
+    .gelap #theme-btn .icon {
+      transform: rotate(180deg);
+    }
+
+    /* Kartu utama */
+    .kartu {
+      position: relative;
+      z-index: 5;
+      background: var(--kartu);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: var(--border);
+      border-radius: 24px;
+      padding: 40px 50px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: background 0.4s ease, box-shadow 0.4s ease, border 0.4s;
+      animation: muncul 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+      display: inline-block;
+      max-width: 90vw;
+    }
+    .kartu:hover {
+      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f7df1e, #f5a623);
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 12px rgba(247, 223, 30, 0.4);
+      animation: muncul 0.5s ease;
+    }
+
+    @keyframes muncul {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* Angka penghitung */
+    .penghitung {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin: 10px 0;
+      background: linear-gradient(135deg, var(--teks), rgba(128,128,128,0.7));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: background 0.4s;
+    }
+    .gelap .penghitung {
+      background: linear-gradient(135deg, #fff, #aaa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      letter-spacing: 0.5px;
+    }
+
+    /* Responsif */
+    @media (max-width: 500px) {
+      .kartu {
+        padding: 30px 25px;
+      }
+      .penghitung {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tombol tema -->
+  <button id="theme-btn">
+    <span class="icon">☀️</span>
+    <span class="label">Mode Gelap</span>
+  </button>
+
+  <!-- Kartu informasi -->
+  <div class="kartu">
+    <div class="avatar"></div>
+    <h2 class="penghitung" data-target="1200">0</h2>
+    <p>Total Pengguna</p>
+  </div>
+
+  <!-- Skrip app.js yang sudah disempurnakan -->
+  <script>
+    (function() {
+      // Tema awal dari localStorage
+      const body = document.body;
+      const themeBtn = document.getElementById('theme-btn');
+      const icon = themeBtn.querySelector('.icon');
+      const label = themeBtn.querySelector('.label');
+
+      if (localStorage.getItem('tema') === 'gelap') {
+        body.classList.add('gelap');
+        icon.textContent = '🌙';
+        label.textContent = 'Mode Terang';
+      }
+
+      // Toggle tema
+      themeBtn.addEventListener('click', () => {
+        body.classList.toggle('gelap');
+        const isGelap = body.classList.contains('gelap');
+        localStorage.setItem('tema', isGelap ? 'gelap' : 'terang');
+        icon.textContent = isGelap ? '🌙' : '☀️';
+        label.textContent = isGelap ? 'Mode Terang' : 'Mode Gelap';
+
+        // Efek ripple sederhana pada klik
+        themeBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => { themeBtn.style.transform = ''; }, 150);
+      });
+
+      // Animasi penghitung yang sudah ada
+      document.querySelectorAll('.penghitung').forEach(el => {
+        const target = +el.dataset.target;
+        let n = 0;
+        const langkah = target / 60;
+
+        const jalankan = () => {
+          n = Math.min(n + langkah, target);
+          el.textContent = Math.floor(n).toLocaleString();
+          if (n < target) requestAnimationFrame(jalankan);
+        };
+        requestAnimationFrame(jalankan);
+      });
+    })();
+  </script>
+
+  <!-- Skrip p5.js (script2.js) dengan penyesuaian responsif tema -->
+  <script>
+    // Variabel global p5 (dari script2.js)
+    let theSpaceThatIsHeld;
+    let theDensityOfWhatIs;
+    let theWhole;
+    let amplitudes;
+    let elementsOfChange;
+    let theSymmetrishQuality;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      whatIsThis();
+      theSpaceThatIsHeld = random(width / 20, width / 10);
+      theDensityOfWhatIs = int(random(200, 400));
+      theWhole = [];
+      amplitudes = random(width / 5, width / 3);
+      elementsOfChange = [random(3, 10), random(3, 10), random(3, 10)];
+
+      for (let i = 0; i < theDensityOfWhatIs; i++) {
+        theWhole.push(new PartsOfTheWhole());
+      }
+      angleMode(DEGREES);
+      theSymmetrishQuality = random([7, 8, 9, 10, 11, 12]);
+    }
+
+    function draw() {
+      translate(width / 2, height / 2);
+      rotate(-frameCount / 10);
+
+      // Warna latar mengikuti tema
+      let isDark = document.body.classList.contains('gelap');
+      let bgColor = isDark ? color(10, 30, 40, 10) : color(20, 70, 80, 10);
+      background(bgColor);
+
+      for (let k = 0; k < theSymmetrishQuality; k++) {
+        for (let i = 0; i < theWhole.length; i++) {
+          push();
+          rotate((180 / theSymmetrishQuality) * k);
+          theWhole[i].flow();
+          pop();
+        }
+      }
+    }
+
+    class PartsOfTheWhole {
+      constructor() {
+        this.x = random(-theSpaceThatIsHeld, theSpaceThatIsHeld);
+        this.y = random(-height / 1.5, height / 1.5);
+        this.l = random(width / 100, width / 20);
+        this.tFactor = random(0.001, 0.2);
+        this.light = color(random(200, 250), random(240, 255), 255, random(2, 30));
+      }
+      flow() {
+        stroke(this.light);
+        noFill();
+
+        beginShape();
+        for (let i = 0; i < this.l; i++) {
+          vertex(
+            this.x +
+              amplitudes *
+                cos(this.y + i) *
+                sin(this.y / elementsOfChange[0] + i / elementsOfChange[0]) *
+                cos(i * 2) -
+              50 * sin(i / elementsOfChange[1]),
+            this.y + i
+          );
+        }
+        endShape();
+
+        if (this.y >= height / 1.5) {
+          this.y = -height / 1.5 - this.l;
+        } else {
+          this.y += this.tFactor;
+        }
+      }
+    }
+
+    function whatIsThis() {
+      describe(
+        "rotational symmetry of water-like lines moving from half of the mandala-like structure and the other parts running two. The flow is curved like a river when followed, but is lost with some of the blur from transparency. The background is dark teal and the flow-lines are white but with light teal variations. The center pulses with star-like structure with and ebb and flow feel that almost makes the canvas move. "
+      );
+    }
+
+    function mousePressed() {
+      // Regenerasi saat klik di area kosong (tidak di atas tombol/kartu)
+      theSpaceThatIsHeld = random(width / 20, width / 10);
+      theDensityOfWhatIs = int(random(200, 500));
+      theWhole = [];
+      amplitudes = random(width / 5, width / 3);
+      elementsOfChange = [random(3, 10), random(3, 10), random(3, 10)];
+
+      for (let i = 0; i < theDensityOfWhatIs; i++) {
+        theWhole.push(new PartsOfTheWhole());
+      }
+      angleMode(DEGREES);
+      theSymmetrishQuality = random([7, 8, 9, 10, 11, 12]);
+    }
+
+    // Ukuran kanvas menyesuaikan layar
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+  </script>
+</body>
+</html>

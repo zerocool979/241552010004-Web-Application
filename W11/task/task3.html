@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Interaktif | Proyek 3</title>
+    <style>
+        :root {
+            --bg: #f4f7fc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #475569;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --border: rgba(0, 0, 0, 0.08);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+            --tab-active-bg: #ffffff;
+            --tab-inactive-bg: transparent;
+            --accordion-bg: #ffffff;
+            --accordion-border: #e2e8f0;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+
+        .dark {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --primary: #818cf8;
+            --primary-hover: #6366f1;
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --tab-active-bg: #1e293b;
+            --accordion-bg: #1e293b;
+            --accordion-border: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* ---- HEADER & TOGGLE CEPAT ---- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .quick-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dark-toggle-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text);
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-toggle-btn:hover {
+            transform: scale(1.03);
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ---- TAB NAVIGATION ---- */
+        .tab-nav {
+            display: flex;
+            background: var(--card);
+            border-radius: 50px;
+            padding: 6px;
+            box-shadow: var(--shadow);
+            align-self: flex-start;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .tombol-tab {
+            background: transparent;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .tombol-tab.aktif {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* ---- PANEL ---- */
+        .panel {
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .panel.aktif {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- KARTU STATISTIK ---- */
+        .grid-statistik {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .kartu-stat {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 1.8rem 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kartu-stat:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .kartu-stat .icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .penghitung {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 0.3rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .kartu-stat p {
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Warna aksen kartu */
+        .kartu-stat.pengguna .icon { color: var(--primary); }
+        .kartu-stat.produk .icon { color: var(--accent-green); }
+        .kartu-stat.transaksi .icon { color: var(--accent-orange); }
+        .kartu-stat.pendapatan .icon { color: var(--accent-purple); }
+
+        /* ---- ACCORDION ---- */
+        .item-akordion {
+            background: var(--accordion-bg);
+            border: 1px solid var(--accordion-border);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+
+        .judul-akordion {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 1.2rem 1.8rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: left;
+        }
+
+        .judul-akordion:hover {
+            background: rgba(0,0,0,0.02);
+        }
+
+        .judul-akordion .arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .item-akordion.terbuka .judul-akordion .arrow {
+            transform: rotate(180deg);
+        }
+
+        .konten-akordion {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 1.8rem;
+            color: var(--text-secondary);
+        }
+
+        .item-akordion.terbuka .konten-akordion {
+            max-height: 300px;
+            padding: 0 1.8rem 1.5rem;
+        }
+
+        .konten-akordion button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .konten-akordion button:hover {
+            background: var(--primary-hover);
+        }
+
+        /* ---- RESPONSIF ---- */
+        @media (max-width: 600px) {
+            .tab-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .tombol-tab {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
+            }
+            .penghitung {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <h1>📊 Dashboard</h1>
+            <div class="quick-actions">
+                <button class="dark-toggle-btn" id="darkModeToggle">
+                    <span id="darkIcon">🌙</span> <span id="darkLabel">Mode Gelap</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tombol-tab aktif" data-tab="ikhtisar">📋 Ikhtisar</button>
+            <button class="tombol-tab" data-tab="statistik">📈 Statistik</button>
+            <button class="tombol-tab" data-tab="pengaturan">⚙️ Pengaturan</button>
+        </nav>
+
+        <!-- PANEL: Ikhtisar -->
+        <section id="ikhtisar" class="panel aktif">
+            <div class="grid-statistik">
+                <div class="kartu-stat pengguna" data-target="1200">
+                    <div class="icon">👥</div>
+                    <h3 class="penghitung">0</h3>
+                    <p>Total Pengguna</p>
+                </div>
+                <div class="kartu-stat produk" data-target="487">
+                    <div class="icon">📦</div>
+                    <h3 class="penghitung">0</h3>
+                    <p>Produk Aktif</p>
+                </div>
+                <div class="kartu-stat transaksi" data-target="3250">
+                    <div class="icon">💰</div>
+                    <h3 class="penghitung">0</h3>
+                    <p>Transaksi</p>
+                </div>
+                <div class="kartu-stat pendapatan" data-target="980">
+                    <div class="icon">📊</div>
+                    <h3 class="penghitung">0</h3>
+                    <p>Pendapatan (Juta)</p>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; color: var(--text-secondary); text-align: center;">Data diperbarui secara real‑time</p>
+        </section>
+
+        <!-- PANEL: Statistik -->
+        <section id="statistik" class="panel">
+            <div style="background: var(--card); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border);">
+                <h2 style="margin-bottom: 1rem;">📈 Analisis Bulanan</h2>
+                <p style="color: var(--text-secondary);">Grafik dan detail statistik akan ditampilkan di sini. (Placeholder)</p>
+                <!-- Bisa ditambahkan chart.js atau lainnya -->
+            </div>
+        </section>
+
+        <!-- PANEL: Pengaturan -->
+        <section id="pengaturan" class="panel">
+            <div class="item-akordion">
+                <button class="judul-akordion">
+                    🎨 Tema Tampilan
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="konten-akordion">
+                    <p>Pilih mode gelap atau terang untuk kenyamanan mata Anda.</p>
+                    <button id="accordionDarkToggle">Alihkan Mode Gelap</button>
+                </div>
+            </div>
+            <div class="item-akordion">
+                <button class="judul-akordion">
+                    🔔 Notifikasi
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="konten-akordion">
+                    <p>Kelola preferensi notifikasi email dan push.</p>
+                    <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                        <input type="checkbox" checked> Aktifkan notifikasi
+                    </label>
+                </div>
+            </div>
+            <div class="item-akordion">
+                <button class="judul-akordion">
+                    🔒 Privasi & Keamanan
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="konten-akordion">
+                    <p>Ubah kata sandi atau atur autentikasi dua faktor.</p>
+                    <button style="background: var(--accent-green);">Perbarui Kata Sandi</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        (function() {
+            // ========== DARK MODE ==========
+            const body = document.body;
+            const darkToggle = document.getElementById('darkModeToggle');
+            const darkIcon = document.getElementById('darkIcon');
+            const darkLabel = document.getElementById('darkLabel');
+            const accordionDarkBtn = document.getElementById('accordionDarkToggle');
+
+            function applyDarkMode(isDark) {
+                if (isDark) {
+                    body.classList.add('dark');
+                    darkIcon.textContent = '☀️';
+                    darkLabel.textContent = 'Mode Terang';
+                    localStorage.setItem('dashboard-theme', 'dark');
+                } else {
+                    body.classList.remove('dark');
+                    darkIcon.textContent = '🌙';
+                    darkLabel.textContent = 'Mode Gelap';
+                    localStorage.setItem('dashboard-theme', 'light');
+                }
+            }
+
+            // Inisialisasi dari localStorage
+            const savedTheme = localStorage.getItem('dashboard-theme');
+            applyDarkMode(savedTheme === 'dark');
+
+            function toggleDarkMode() {
+                applyDarkMode(!body.classList.contains('dark'));
+            }
+
+            darkToggle.addEventListener('click', toggleDarkMode);
+            if (accordionDarkBtn) {
+                accordionDarkBtn.addEventListener('click', toggleDarkMode);
+            }
+
+            // ========== TAB NAVIGATION ==========
+            const tabButtons = document.querySelectorAll('.tombol-tab');
+            const panels = document.querySelectorAll('.panel');
+
+            function switchTab(tabId) {
+                // Update tombol aktif
+                tabButtons.forEach(btn => btn.classList.remove('aktif'));
+                const activeBtn = document.querySelector(`.tombol-tab[data-tab="${tabId}"]`);
+                if (activeBtn) activeBtn.classList.add('aktif');
+
+                // Tampilkan panel yang sesuai
+                panels.forEach(panel => panel.classList.remove('aktif'));
+                const targetPanel = document.getElementById(tabId);
+                if (targetPanel) targetPanel.classList.add('aktif');
+
+                // Jalankan animasi penghitung ulang jika pindah ke Ikhtisar
+                if (tabId === 'ikhtisar') {
+                    resetCounters();
+                }
+            }
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchTab(btn.dataset.tab);
+                });
+            });
+
+            // ========== ACCORDION ==========
+            document.querySelectorAll('.judul-akordion').forEach(judul => {
+                judul.addEventListener('click', () => {
+                    const item = judul.parentElement;
+                    // Tutup accordion lain (opsional, biarkan bisa banyak terbuka)
+                    // Untuk satu terbuka saja, gunakan kode berikut:
+                    document.querySelectorAll('.item-akordion').forEach(el => {
+                        if (el !== item) el.classList.remove('terbuka');
+                    });
+                    item.classList.toggle('terbuka');
+                });
+            });
+
+            // ========== ANIMASI PENGHITUNG STATISTIK ==========
+            function animateCounter(element, target) {
+                let n = 0;
+                const step = target / 60; // ~60fps, 1 detik
+                const update = () => {
+                    n = Math.min(n + step, target);
+                    element.textContent = Math.floor(n).toLocaleString();
+                    if (n < target) {
+                        requestAnimationFrame(update);
+                    }
+                };
+                requestAnimationFrame(update);
+            }
+
+            function resetCounters() {
+                document.querySelectorAll('.kartu-stat').forEach(kartu => {
+                    const counterEl = kartu.querySelector('.penghitung');
+                    const target = +kartu.dataset.target;
+                    // Reset ke 0 lalu animasi ulang
+                    counterEl.textContent = '0';
+                    animateCounter(counterEl, target);
+                });
+            }
+
+            // Jalankan pertama kali (hanya jika panel Ikhtisar aktif)
+            if (document.getElementById('ikhtisar').classList.contains('aktif')) {
+                resetCounters();
+            }
+
+            // ========== BUKA ACCORDION PERTAMA SECARA DEFAULT ==========
+            const firstAccordion = document.querySelector('.item-akordion');
+            if (firstAccordion) {
+                firstAccordion.classList.add('terbuka');
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Bunga</title>
+    <style>
+        html, body {
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            background: #0a1f2e;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Kanvas penuh sebagai latar */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: block;
+            cursor: crosshair;
+        }
+
+        /* Wadah utama untuk tombol dan teks */
+        .ui-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none; /* Agar klik tembus ke kanvas */
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-start;
+            padding: 0 0 30px 30px;
+            box-sizing: border-box;
+        }
+
+        /* Tombol bersihkan kanvas */
+        .clean-btn {
+            pointer-events: auto;
+            z-index: 10;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            text-shadow: 0 0 12px rgba(0,0,0,0.6);
+            user-select: none;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 12px 28px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.4px;
+            opacity: 0.7;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .clean-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .clean-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Teks instruksi di tengah */
+        .name {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-weight: 300;
+            text-shadow: 0 0 25px rgba(0,0,0,0.8);
+            user-select: none;
+            pointer-events: none;
+            z-index: 2;
+            letter-spacing: 2px;
+            animation: floatText 3s ease-in-out infinite;
+            opacity: 0.9;
+        }
+
+        @keyframes floatText {
+            0% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-6px); }
+            100% { transform: translate(-50%, -50%) translateY(0px); }
+        }
+
+        /* Indikator loading kecil (opsional) */
+        .loading-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .clean-btn {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+            .ui-overlay {
+                padding: 0 0 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <!-- Overlay UI -->
+    <div class="ui-overlay">
+        <div class="clean-btn" id="cleanButton">Bersihkan Kanvas</div>
+    </div>
+
+    <div class="name" id="instructionText">Klik untuk menumbuhkan bunga</div>
+    <div class="loading-indicator" id="loader">memuat...</div>
+
+    <!-- Shader code (tidak berubah) -->
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        #define PI 3.14159265359
+
+        uniform float u_ratio;
+        uniform vec2 u_cursor;
+        uniform float u_stop_time;
+        uniform float u_clean;
+        uniform vec2 u_stop_randomizer;
+
+        uniform sampler2D u_texture;
+        varying vec2 vUv;
+
+        // 2D noise
+        vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+        float snoise(vec2 v) {
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+            vec2 i = floor(v + dot(v, C.yy));
+            vec2 x0 = v - i + dot(i, C.xx);
+            vec2 i1;
+            i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz;
+            x12.xy -= i1;
+            i = mod289(i);
+            vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+            vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+            m = m*m;
+            m = m*m;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0;
+            vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5);
+            vec3 a0 = x - ox;
+            m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+            vec3 g;
+            g.x = a0.x * x0.x + h.x * x0.y;
+            g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+        }
+
+        float get_flower_shape(vec2 _p, float _pet_n, float _angle, float _outline) {
+            _angle *= 3.;
+            _p = vec2(_p.x * cos(_angle) - _p.y * sin(_angle),
+                      _p.x * sin(_angle) + _p.y * cos(_angle));
+            float a = atan(_p.y, _p.x);
+            float flower_sectoral_shape = pow(abs(sin(a * _pet_n)), .4) + .25;
+            vec2 flower_size_range = vec2(.03, .1);
+            float size = flower_size_range[0] + u_stop_randomizer[0] * flower_size_range[1];
+            float flower_radial_shape = pow(length(_p) / size, 2.);
+            flower_radial_shape -= .1 * sin(8. * a);
+            flower_radial_shape = max(.1, flower_radial_shape);
+            flower_radial_shape += smoothstep(0., 0.03, -_p.y + .2 * abs(_p.x));
+            float grow_time = step(.25, u_stop_time) * pow(u_stop_time, .3);
+            float flower_shape = 1. - smoothstep(0., flower_sectoral_shape, _outline * flower_radial_shape / grow_time);
+            flower_shape *= (1. - step(1., grow_time));
+            return flower_shape;
+        }
+
+        float get_stem_shape(vec2 _p, vec2 _uv, float _w, float _angle) {
+            _w = max(.004, _w);
+            float x_offset = _p.y * sin(_angle);
+            x_offset *= pow(3. * _uv.y, 2.);
+            _p.x -= x_offset;
+            float noise_power = .5;
+            float cursor_horizontal_noise = noise_power * snoise(2. * _uv * u_stop_randomizer[0]);
+            cursor_horizontal_noise *= pow(dot(_p.y, _p.y), .6);
+            cursor_horizontal_noise *= pow(dot(_uv.y, _uv.y), .3);
+            _p.x += cursor_horizontal_noise;
+            float left = smoothstep(-_w, 0., _p.x);
+            float right = 1. - smoothstep(0., _w, _p.x);
+            float stem_shape = left * right;
+            float grow_time = 1. - smoothstep(0., .2, u_stop_time);
+            float stem_top_mask = smoothstep(0., pow(grow_time, .5), .03 -_p.y);
+            stem_shape *= stem_top_mask;
+            stem_shape *= (1. - step(.17, u_stop_time));
+            return stem_shape;
+        }
+
+        void main() {
+            vec3 base = texture2D(u_texture, vUv).xyz;
+            vec2 uv = vUv;
+            uv.x *= u_ratio;
+            vec2 cursor = vUv - u_cursor.xy;
+            cursor.x *= u_ratio;
+
+            vec3 stem_color = vec3(.1 + u_stop_randomizer[0] * .6, .6, .2);
+            vec3 flower_color = vec3(.6 + .5 * u_stop_randomizer[1], .1, .9 - .5 * u_stop_randomizer[1]);
+
+            float angle = .5 * (u_stop_randomizer[0] - .5);
+
+            float stem_shape = get_stem_shape(cursor, uv, .003, angle);
+            stem_shape += get_stem_shape(cursor + vec2(0., .2 + .5 * u_stop_randomizer[0]), uv, .003, angle);
+            float stem_mask = 1. - get_stem_shape(cursor, uv, .004, angle);
+            stem_mask -= get_stem_shape(cursor + vec2(0., .2 + .5 * u_stop_randomizer[0]), uv, .004, angle);
+
+            float petals_back_number = 1. + floor(u_stop_randomizer[0] * 2.);
+            float angle_offset = -(2. * step(0., angle) - 1.) * .1 * u_stop_time;
+            float flower_back_shape = get_flower_shape(cursor, petals_back_number, angle + angle_offset, 1.5);
+            float flower_back_mask = 1. - get_flower_shape(cursor, petals_back_number, angle + angle_offset, 1.6);
+
+            float petals_front_number = 2. + floor(u_stop_randomizer[1] * 2.);
+            float flower_front_shape = get_flower_shape(cursor, petals_front_number, angle, 1.);
+            float flower_front_mask = 1. - get_flower_shape(cursor, petals_front_number, angle, .95);
+
+            vec3 color = base;
+            color *= stem_mask;
+            color *= flower_back_mask;
+            color *= flower_front_mask;
+
+            color += (stem_shape * stem_color);
+            color += (flower_back_shape * (flower_color + vec3(0., .8 * u_stop_time, 0.)));
+            color += (flower_front_shape * flower_color);
+
+            color.r *= 1. - (.5 * flower_back_shape * flower_front_shape);
+            color.b *= 1. - (flower_back_shape * flower_front_shape);
+
+            color *= u_clean;
+
+            gl_FragColor = vec4(color, 1.);
+        }
+    </script>
+
+    <script type="x-shader/x-vertex" id="vertexShader">
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.);
+        }
+    </script>
+
+    <!-- Three.js dan logika utama -->
+    <script type="module">
+        import * as THREE from "https://esm.sh/three@0.133.1/build/three.module";
+
+        // --- Elemen UI ---
+        const canvasEl = document.querySelector("#canvas");
+        const cleanBtn = document.getElementById("cleanButton");
+        const instructionText = document.getElementById("instructionText");
+        const loaderEl = document.getElementById("loader");
+
+        // Sembunyikan loader setelah inisialisasi
+        window.addEventListener('load', () => {
+            loaderEl.style.display = 'none';
+        });
+
+        // Animasi teks instruksi: pudar setelah beberapa kali klik
+        let clickCount = 0;
+        function updateInstruction() {
+            if (clickCount >= 3) {
+                instructionText.style.opacity = '0';
+                instructionText.style.transition = 'opacity 0.8s';
+            } else {
+                instructionText.textContent = clickCount === 0 
+                    ? 'Klik untuk menumbuhkan bunga' 
+                    : 'Klik lagi...';
+            }
+        }
+
+        // --- Data pointer & state ---
+        const pointer = {
+            x: 0.66,
+            y: 0.3,
+            clicked: false,
+            vanishCanvas: false,
+        };
+
+        // Efek awal: munculkan satu bunga di tengah setelah jeda
+        setTimeout(() => {
+            pointer.x = 0.75;
+            pointer.y = 0.5;
+            pointer.clicked = true;
+        }, 600);
+
+        // --- Three.js setup ---
+        let basicMaterial, shaderMaterial;
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvasEl,
+            alpha: true,
+            antialias: true,
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        const sceneShader = new THREE.Scene();
+        const sceneBasic = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 10);
+        const clock = new THREE.Clock();
+
+        let renderTargets = [
+            new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight),
+            new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight)
+        ];
+
+        // --- Buat plane untuk shader ---
+        function createPlane() {
+            shaderMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    u_stop_time: { value: 0.0 },
+                    u_stop_randomizer: { value: new THREE.Vector2(Math.random(), Math.random()) },
+                    u_cursor: { value: new THREE.Vector2(pointer.x, 1 - pointer.y) },
+                    u_ratio: { value: window.innerWidth / window.innerHeight },
+                    u_texture: { value: null },
+                    u_clean: { value: 1.0 },
+                },
+                vertexShader: document.getElementById("vertexShader").textContent,
+                fragmentShader: document.getElementById("fragmentShader").textContent,
+            });
+
+            basicMaterial = new THREE.MeshBasicMaterial();
+            const planeGeometry = new THREE.PlaneGeometry(2, 2);
+            const planeBasic = new THREE.Mesh(planeGeometry, basicMaterial);
+            const planeShader = new THREE.Mesh(planeGeometry, shaderMaterial);
+            sceneBasic.add(planeBasic);
+            sceneShader.add(planeShader);
+        }
+
+        createPlane();
+        updateSize();
+
+        // --- Event listeners ---
+        window.addEventListener("resize", () => {
+            updateSize();
+            cleanCanvas();
+        });
+
+        // Deteksi touch screen
+        let isTouchScreen = false;
+        window.addEventListener("touchstart", (e) => {
+            isTouchScreen = true;
+            pointer.x = e.targetTouches[0].pageX / window.innerWidth;
+            pointer.y = e.targetTouches[0].pageY / window.innerHeight;
+            pointer.clicked = true;
+            clickCount++;
+            updateInstruction();
+        }, { passive: true });
+
+        window.addEventListener("click", (e) => {
+            if (!isTouchScreen) {
+                pointer.x = e.pageX / window.innerWidth;
+                pointer.y = e.pageY / window.innerHeight;
+                pointer.clicked = true;
+                clickCount++;
+                updateInstruction();
+            }
+        });
+
+        // Tombol bersihkan
+        cleanBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            cleanCanvas();
+            // Reset jumlah klik agar instruksi muncul lagi
+            clickCount = 0;
+            instructionText.style.opacity = '0.9';
+            instructionText.style.transition = 'opacity 0.4s';
+            instructionText.textContent = 'Kanvas bersih. Klik untuk menumbuhkan bunga baru';
+        });
+
+        function cleanCanvas() {
+            pointer.vanishCanvas = true;
+            setTimeout(() => {
+                pointer.vanishCanvas = false;
+            }, 50);
+        }
+
+        // --- Render loop ---
+        function render() {
+            requestAnimationFrame(render);
+
+            shaderMaterial.uniforms.u_clean.value = pointer.vanishCanvas ? 0 : 1;
+            shaderMaterial.uniforms.u_texture.value = renderTargets[0].texture;
+
+            if (pointer.clicked) {
+                shaderMaterial.uniforms.u_cursor.value = new THREE.Vector2(pointer.x, 1 - pointer.y);
+                shaderMaterial.uniforms.u_stop_randomizer.value = new THREE.Vector2(Math.random(), Math.random());
+                shaderMaterial.uniforms.u_stop_time.value = 0.0;
+                pointer.clicked = false;
+            }
+            shaderMaterial.uniforms.u_stop_time.value += clock.getDelta();
+
+            renderer.setRenderTarget(renderTargets[1]);
+            renderer.render(sceneShader, camera);
+            basicMaterial.map = renderTargets[1].texture;
+            renderer.setRenderTarget(null);
+            renderer.render(sceneBasic, camera);
+
+            // Tukar render target
+            let tmp = renderTargets[0];
+            renderTargets[0] = renderTargets[1];
+            renderTargets[1] = tmp;
+        }
+
+        function updateSize() {
+            shaderMaterial.uniforms.u_ratio.value = window.innerWidth / window.innerHeight;
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Render target juga perlu diresize
+            renderTargets[0].setSize(window.innerWidth, window.innerHeight);
+            renderTargets[1].setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Mulai animasi
+        render();
+    </script>
+</body>
+</html>

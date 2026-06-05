@@ -1,0 +1,287 @@
+/* --- CSS CUSTOM PROPERTIES (VARIABLES) --- */
+:root {
+  --bg: #f5f5f5;
+  --teks: #111;
+  --teks-sekunder: #555;
+  --kartu: #ffffff;
+  --aksen: #4f46e5;
+  --border: #dddddd;
+  --sukses-warna: #27c467;
+  --error-warna: #e54b5a;
+}
+
+/* Skema warna saat Mode Gelap aktif */
+.gelap {
+  --bg: #1e1e2e;
+  --teks: #ffffff;
+  --teks-sekunder: #a9a9b3;
+  --kartu: #28283c;
+  --border: #444455;
+  --aksen: #818cf8;
+}
+
+/* --- BASE STYLES --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--teks);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+}
+
+header {
+  background-color: var(--kartu);
+  border-bottom: 1px solid var(--border);
+  padding: 15px 20px;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.header-konten {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-tema {
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: var(--aksen);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 6px;
+  transition: background-color 0.3s;
+}
+
+main {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.kartu-utama {
+  background-color: var(--kartu);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 30px;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+h2 {
+  margin-bottom: 8px;
+}
+
+.sub-judul {
+  color: var(--teks-sekunder);
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+/* --- UI COMPONENT 1: TAB NAVIGATION --- */
+.tab-nav {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 30px;
+}
+
+.tombol-tab {
+  background: none;
+  border: none;
+  color: var(--teks-sekunder);
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.3s;
+}
+
+.tombol-tab:hover {
+  color: var(--teks);
+}
+
+.tombol-tab.aktif {
+  color: var(--aksen);
+  border-bottom-color: var(--aksen);
+}
+
+.panel {
+  display: none;
+}
+
+.panel.aktif {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- FORM & VALIDATION STYLES --- */
+.field-grup {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  background-color: var(--kartu);
+  color: var(--teks);
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.25s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--aksen);
+}
+
+/* Feedback Visual Real-time Validation */
+input.valid {
+  border-color: var(--sukses-warna);
+}
+
+input.invalid {
+  border-color: var(--error-warna);
+}
+
+.pesan-error {
+  color: var(--error-warna);
+  font-size: 12px;
+  margin-top: 6px;
+  display: block;
+  min-height: 16px;
+}
+
+/* Bilah Kekuatan Password */
+.bilah-kekuatan {
+  height: 5px;
+  background-color: var(--border);
+  border-radius: 3px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.isian-kekuatan {
+  height: 100%;
+  width: 0%;
+  background-color: var(--error-warna);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--aksen);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-submit:hover {
+  opacity: 0.9;
+}
+
+.notif-sukses {
+  background-color: rgba(39, 196, 103, 0.15);
+  border: 1px solid var(--sukses-warna);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--teks);
+  animation: fadeIn 0.5s ease;
+}
+
+.tersembunyi {
+  display: none !important;
+}
+
+/* --- UI COMPONENT 2: ACCORDION --- */
+.akordion-grup {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.item-akordion {
+  border-bottom: 1px solid var(--border);
+}
+
+.item-akordion:last-child {
+  border-bottom: none;
+}
+
+.judul-akordion {
+  width: 100%;
+  background-color: var(--kartu);
+  color: var(--teks);
+  border: none;
+  padding: 16px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.judul-akordion:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.gelap .judul-akordion:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Efek rotasi indikator panah sederhana menggunakan pseudo-element CSS */
+.judul-akordion::after {
+  content: '▼';
+  font-size: 10px;
+  transition: transform 0.3s;
+  color: var(--teks-sekunder);
+}
+
+.item-akordion.terbuka .judul-akordion::after {
+  transform: rotate(180deg);
+}
+
+.konten-akordion {
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--kartu);
+  transition: max-height 0.35s ease;
+}
+
+.konten-akordion p {
+  padding: 16px;
+  color: var(--teks-sekunder);
+  font-size: 14px;
+  line-height: 1.6;
+}

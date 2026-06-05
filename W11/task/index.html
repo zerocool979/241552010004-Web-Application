@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tugas Mandiri</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-konten">
+      <h1>Portal Pendaftaran</h1>
+      <button id="theme-btn" class="btn-tema">Mode Gelap</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="kartu-utama">
+      <nav class="tab-nav">
+        <button class="tombol-tab aktif" data-tab="registrasi">Registrasi Akun</button>
+        <button class="tombol-tab" data-tab="bantuan">Panduan & FAQ</button>
+      </nav>
+
+      <section id="registrasi" class="panel aktif">
+        <h2>Formulir Pendaftaran</h2>
+        <p class="sub-judul">Silakan isi data diri Anda dengan benar.</p>
+        
+        <form id="formulir" novalidate>
+          <div class="field-grup">
+            <label for="nama">Nama Lengkap</label>
+            <input id="nama" type="text" placeholder="Minimal 3 karakter">
+            <span class="pesan-error"></span>
+          </div>
+
+          <div class="field-grup">
+            <label for="email">Alamat Email</label>
+            <input id="email" type="email" placeholder="contoh@gmail.com">
+            <span class="pesan-error"></span>
+          </div>
+
+          <div class="field-grup">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Minimal 8 karakter">
+            <div class="bilah-kekuatan">
+              <div class="isian-kekuatan"></div>
+            </div>
+            <span class="pesan-error"></span>
+          </div>
+
+          <button type="submit" class="btn-submit">Daftar Sekarang</button>
+        </form>
+
+        <div id="sukses" class="notif-sukses tersembunyi">
+          <h3>✓ Registrasi Berhasil!</h3>
+          <p>Data Anda telah tervalidasi oleh sistem.</p>
+        </div>
+      </section>
+
+      <section id="bantuan" class="panel">
+        <h2>Pertanyaan yang Sering Diajukan (FAQ)</h2>
+        <p class="sub-judul">Klik pada judul untuk membuka informasi.</p>
+
+        <div class="akordion-grup">
+          <div class="item-akordion">
+            <button class="judul-akordion">Apakah data saya aman?</button>
+            <div class="konten-akordion">
+              <p>Ya, seluruh data yang Anda masukkan melalui formulir ini dijamin keamanannya dan diproses secara real-time di sisi klien.</p>
+            </div>
+          </div>
+
+          <div class="item-akordion">
+            <button class="judul-akordion">Bagaimana kriteria password yang kuat?</button>
+            <div class="konten-akordion">
+              <p>Password yang kuat sebaiknya memiliki panjang lebih dari 8 karakter, mengombinasikan huruf besar, huruf kecil, angka, dan simbol unik.</p>
+            </div>
+          </div>
+
+          <div class="item-akordion">
+            <button class="judul-akordion">Mengapa muncul pesan error saat mengetik?</p>
+            <div class="konten-akordion">
+              <p>Sistem kami menerapkan sistem <em>Real-time Validation</em> yang akan langsung mengecek kesesuaian format data saat Anda mulai mengetik.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
